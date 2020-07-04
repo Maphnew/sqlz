@@ -46,11 +46,14 @@ router.post('/login', async(req,res) => {
         if(user === null) {
             return res.status(400).send({msg: 'Unable to find the user'})
         }
-        console.log(user.toJSON());
+        // console.log(user.toJSON());
         // console.log(JSON.stringify(user, null, 4));
 
         
-        res.status(201).send(user)
+        res.status(201).send({
+            userID: user.userID,
+            myPlaces: user.myPlaces
+        })
     } catch (e) {
         res.status(400).send(e)
     }
