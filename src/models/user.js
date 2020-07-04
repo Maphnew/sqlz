@@ -19,27 +19,17 @@ const User = sequelize.define('User', {
         timestamps: true
     }, {
         tableName: 'User'
-    },
+    }
     // {
     //     freezeTableName: true
     // }
-    {
-        hooks: {
-            beforeValidate: () => {
-                console.log('beforeValidate')
-            }
-        }
-    }
-);
 
-// User.beforeValidate(async (user, options) => {
-//     console.log('a')
-// });
+);
 
 (async () => {
     await User.sync(
          // { force: true }
-        ).then(() => {console.log('sync')})
+        ).then(() => {console.log('User sync')})
 })();
 
 module.exports = {

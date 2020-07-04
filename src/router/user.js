@@ -1,5 +1,6 @@
 const express = require('express')
 const { User } = require('../models/user')
+const { Place } = require('../models/place')
 const sequelize = require('../database/db')
 const { QueryTypes } = require('sequelize');
 
@@ -11,7 +12,7 @@ router.post('/users', async (req, res) => {
         const user = await User.create(req.body)
         console.log(user.toJSON());
         const userJSON =  user.toJSON()
-        console.log('??', typeof(user))
+        
         // console.log(JSON.stringify(user, null, 4));
         res.status(201).send(user)
     } catch (e) {
@@ -34,6 +35,38 @@ router.get('/query', async (req, res) => {
         }
         
     } catch(e) {
+        res.status(400).send(e)
+    }
+})
+
+router.post('/places', async (req, res) => {
+    try {
+        const place = await Place.create(req.body)
+        console.log(place.toJSON());
+       
+        // console.log(JSON.stringify(user, null, 4));
+        res.status(201).send(place)
+    } catch (e) {
+        res.status(400).send(e)
+    }
+})
+
+router.post('/place', async (req, res) => {
+    console.log('POST /place', req.body)
+    try {
+        const place = await Place.findOne({ where: { placeID: req.body.placeID } });
+        if(place === null) {
+            return res.status(400).send({msg: 'Unable to find the place'})
+        }
+        // console.log(user.toJSON());
+        // console.log(JSON.stringify(user, null, 4));
+
+        
+        res.status(201).send({
+            placeID: place.placeID,
+            placeName: place.placeName
+        })
+    } catch (e) {
         res.status(400).send(e)
     }
 })
