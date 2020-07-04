@@ -1,16 +1,9 @@
-const { Sequelize, Model, DataTypes  } = require('sequelize');
-const { User } = require('../modelsExample/user')
+const { Sequelize } = require('sequelize');
 
-const findUser = async(req) => {
-    try {
-        console.log(req)
+const sequelize = new Sequelize('user', 'root', '1234', {
+  host: 'localhost',
+  dialect: 'mariadb',
+  logging: console.log,
+});
 
-        const jane = await User.create(req)
-        console.log(jane.toJSON());
-        console.log(JSON.stringify(jane, null, 4));
-      } catch (error) {
-        console.error('Unable to connect to the database:', error);
-      }
-}
-
-module.exports = findUser
+module.exports = sequelize
