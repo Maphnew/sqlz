@@ -22,8 +22,17 @@ router.post('/users', async (req, res) => {
 // Raw Queries
 router.get('/query', async (req, res) => {
     try{
-        const users = await sequelize.query("SELECT * FROM users;", { type: QueryTypes.SELECT });
-        res.status(201).send(users)
+        if(req.query.userID){
+            const users = await sequelize.query("SELECT * FROM users WHERE userID = :userID;", {
+                replacements: {userID: req.query.userID},
+                type: QueryTypes.SELECT 
+            });
+            res.status(201).send(users)
+        } else {
+            const users = await sequelize.query("SELECT * FROM users;", { type: QueryTypes.SELECT });
+            res.status(201).send(users)
+        }
+        
     } catch(e) {
         res.status(400).send(e)
     }
